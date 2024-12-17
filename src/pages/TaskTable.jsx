@@ -17,9 +17,11 @@ const TaskTable = () => {
     setLoading(true);
     try {
       setInterval(() => {
-        axios.get("https://task-management-backend-74my.onrender.com/tasks/").then((response) => {
-          setTaskData(response.data);
-        });
+        axios
+          .get("https://task-management-backend-74my.onrender.com/tasks/")
+          .then((response) => {
+            setTaskData(response.data);
+          });
         setLoading(false);
       }, 1000);
     } catch (error) {
@@ -38,9 +40,12 @@ const TaskTable = () => {
     });
     setTaskData(updatedTaskData);
     try {
-      await axios.put(`https://task-management-backend-74my.onrender.com/tasks/${toggleId}`, {
-        checked: !checked,
-      });
+      await axios.put(
+        `https://task-management-backend-74my.onrender.com/tasks/${toggleId}`,
+        {
+          checked: !checked,
+        },
+      );
     } catch (error) {
       console.log("Error happened in the toggle function", error);
       const revertedTaskData = taskData.map((task) => {
@@ -57,7 +62,9 @@ const TaskTable = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://task-management-backend-74my.onrender.com/tasks/${id}`);
+      await axios.delete(
+        `https://task-management-backend-74my.onrender.com/tasks/${id}`,
+      );
     } catch (error) {
       console.log("Error when deleting the data", error);
     }

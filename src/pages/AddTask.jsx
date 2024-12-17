@@ -12,7 +12,10 @@ const AddTask = () => {
 
   const handleAdd = async () => {
     try {
-      await axios.post("https://task-management-backend-74my.onrender.com/tasks", newData);
+      await axios.post(
+        "https://task-management-backend-74my.onrender.com/tasks",
+        newData,
+      );
       console.log("Task Added successfully");
       navigate("/");
     } catch (error) {
@@ -21,12 +24,12 @@ const AddTask = () => {
   };
 
   return (
-    <div>
-      <div className="mx-auto mt-20 max-w-md rounded-md bg-gray-700 p-6 shadow-lg">
+    <div className="flex justify-center px-4 py-10 max-sm:py-2 sm:px-6 lg:px-8">
+      <div className="mx-auto mt-20 w-full max-w-md rounded-md bg-gray-700 p-6 shadow-lg">
         <h2 className="mb-6 text-center text-2xl font-semibold text-white">
           Add New Task
         </h2>
-        <form className="space-y-8">
+        <form className="space-y-8 max-sm:space-y-4">
           {/* Task Name */}
           <div className="mb-4">
             <label

@@ -8,18 +8,20 @@ const Dashboard = () => {
   const [cardData, setCardData] = useState({});
 
   useEffect(() => {
-    axios.get("https://task-management-backend-74my.onrender.com/tasks").then((response) => {
-      const completedData = response.data.filter(
-        (data) => data.checked === true,
-      );
-      const incompleteData = response.data.filter(
-        (data) => data.checked === false,
-      );
-      setCardData({
-        completed: completedData.length,
-        incomplete: incompleteData.length,
+    axios
+      .get("https://task-management-backend-74my.onrender.com/tasks")
+      .then((response) => {
+        const completedData = response.data.filter(
+          (data) => data.checked === true,
+        );
+        const incompleteData = response.data.filter(
+          (data) => data.checked === false,
+        );
+        setCardData({
+          completed: completedData.length,
+          incomplete: incompleteData.length,
+        });
       });
-    });
     const timer = setTimeout(() => {
       setChartShow(true);
     }, 500);
@@ -27,7 +29,6 @@ const Dashboard = () => {
   }, []);
   return (
     <div>
-      {" "}
       {!chartShow ? (
         <div className="flex h-screen items-center justify-center bg-gray-100 text-center">
           <div className="flex flex-col items-center">
@@ -42,15 +43,17 @@ const Dashboard = () => {
         ""
       )}
       {chartShow ? (
-        <div className="bg-slate-200 p-10">
-          <div>
+        <div className="bg-slate-200 p-10 md:p-16 lg:p-20">
+          <div className="mb-8">
             <TaskSummaryCard
               completedTasks={cardData.completed}
               incompleteTasks={cardData.incomplete}
             />
           </div>
-          <div>
-            <DonutChart />
+          <div className="flex justify-center">
+            <div className="w-full max-w-4xl">
+              <DonutChart />
+            </div>
           </div>
         </div>
       ) : (
