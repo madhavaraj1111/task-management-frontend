@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 const App = () => {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="/task-management-frontend">
         <Routes>
           <Route path="/" element={<Layout />}>
             {" "}
