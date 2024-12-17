@@ -14,9 +14,9 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             {" "}
             <Route index element={<TaskTable />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/add-task" element={<AddTask />} />
-            <Route path="/edit-task" element={<EditTask />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="add-task" element={<AddTask />} />
+            <Route path="edit-task" element={<EditTask />} />
           </Route>
         </Routes>
       </BrowserRouter>{" "}
