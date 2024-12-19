@@ -6,7 +6,7 @@ import axios from "axios";
 const Dashboard = () => {
   const [chartShow, setChartShow] = useState(false);
   const [cardData, setCardData] = useState({});
-
+  const [dueToday, setDueToday] = useState(0);
   useEffect(() => {
     axios
       .get("https://task-management-backend-74my.onrender.com/tasks")
@@ -17,6 +17,11 @@ const Dashboard = () => {
         const incompleteData = response.data.filter(
           (data) => data.checked === false,
         );
+
+        const dueToday = response.data.filter(
+          (due) => due.finishingTime >= Date.now(),
+        );
+
         setCardData({
           completed: completedData.length,
           incomplete: incompleteData.length,
@@ -43,8 +48,25 @@ const Dashboard = () => {
         ""
       )}
       {chartShow ? (
-        <div className="bg-slate-200 p-10 md:p-16 lg:p-20">
-          <div className="mb-8">
+        <div className="p-10 md:p-16 lg:px-10 lg:py-5">
+          {" "}
+          <div className="mb-8 flex flex-col justify-between gap-4 rounded-2xl bg-white p-10 shadow-lg md:flex-row">
+            <div className="rounded bg-green-100 p-4 text-center shadow">
+              <h3 className="font-bold text-green-700">Tasks Due Today</h3>
+              <p className="text-lg font-semibold">{cardData.dueToday || 0}</p>
+            </div>
+            <div className="rounded bg-red-100 p-4 text-center shadow">
+              <h3 className="font-bold text-red-700">Overdue Tasks</h3>
+              <p className="text-lg font-semibold">{cardData.overdue || 0}</p>
+            </div>
+            <div className="rounded bg-yellow-100 p-4 text-center shadow">
+              <h3 className="font-bold text-yellow-700">High Priority</h3>
+              <p className="text-lg font-semibold">
+                {cardData.highPriority || 0}
+              </p>
+            </div>
+          </div>
+          <div className="mb-8 flex justify-center">
             <TaskSummaryCard
               completedTasks={cardData.completed}
               incompleteTasks={cardData.incomplete}

@@ -122,7 +122,7 @@ function Layout() {
         </header>
 
         {/* Main Area */}
-        <main className="overflow-auto p-6">
+        <main className="overflow-auto p-2">
           <Outlet />
         </main>
       </div>
