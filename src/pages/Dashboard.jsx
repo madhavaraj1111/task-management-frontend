@@ -6,7 +6,8 @@ import axios from "axios";
 const Dashboard = () => {
   const [chartShow, setChartShow] = useState(false);
   const [cardData, setCardData] = useState({});
-  const [dueToday, setDueToday] = useState(0);
+  const [finish, setFinish] = useState([]);
+  const [taskOverDue, setTaskOverDue] = useState(0);
   useEffect(() => {
     axios
       .get("https://task-management-backend-74my.onrender.com/tasks")
@@ -18,20 +19,35 @@ const Dashboard = () => {
           (data) => data.checked === false,
         );
 
-        const dueToday = response.data.filter(
-          (due) => due.finishingTime >= Date.now(),
-        );
-
+        const finishingTimeArray = response.data.map((finishTime) => {
+          if (finishTime.checked == false) {
+            const timeStamp = new Date(finishTime.finishingTime).getTime();
+            return timeStamp;
+          }
+        });
+        setFinish(finishingTimeArray);
         setCardData({
           completed: completedData.length,
           incomplete: incompleteData.length,
         });
       });
+
     const timer = setTimeout(() => {
       setChartShow(true);
-    }, 500);
+    }, 800);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (Array.isArray(finish) && finish.length > 0) {
+      const overDueTasks = finish.filter((element) => {
+        return Date.now() > element;
+      });
+
+      setTaskOverDue(overDueTasks.length);
+    }
+  }, [finish]);
+
   return (
     <div>
       {!chartShow ? (
@@ -57,7 +73,13 @@ const Dashboard = () => {
             </div>
             <div className="rounded bg-red-100 p-4 text-center shadow">
               <h3 className="font-bold text-red-700">Overdue Tasks</h3>
-              <p className="text-lg font-semibold">{cardData.overdue || 0}</p>
+              <p className="text-lg font-semibold">
+                {taskOverDue ? (
+                  taskOverDue
+                ) : (
+                  <span className="text-sm">fetching...</span>
+                )}
+              </p>
             </div>
             <div className="rounded bg-yellow-100 p-4 text-center shadow">
               <h3 className="font-bold text-yellow-700">High Priority</h3>

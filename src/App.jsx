@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
-    <>
+    <div className="font-Nunito">
       <BrowserRouter basename="/task-management-frontend">
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -20,7 +20,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>{" "}
-    </>
+    </div>
   );
 };
 
