@@ -41,8 +41,9 @@ const Dashboard = () => {
   useEffect(() => {
     if (Array.isArray(finish) && finish.length > 0) {
       const overDueTasks = finish.filter((element) => {
-        return Date.now() > element;
+        return Date.now() >= element;
       });
+      console.log(overDueTasks);
 
       setTaskOverDue(overDueTasks.length);
     }

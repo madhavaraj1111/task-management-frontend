@@ -3,7 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
 import Modal from "../components/Modal";
+import utc from "dayjs/plugin/utc";
+
+// Load plugins
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const TaskTable = () => {
   const [taskData, setTaskData] = useState([]);
@@ -214,6 +220,14 @@ const TaskTable = () => {
                 </tr>
               ) : (
                 taskData.map((data) => {
+                  const formattedCreatedTime = dayjs
+                    .utc(data.createdAt)
+                    .format("DD,MMMM,YYYY h:mm A");
+                    
+                  const formattedFinishingTime = dayjs
+                    .utc(data.finishingTime)
+                    .format("DD,MMMM,YYYY h:mm A");
+
                   return (
                     <tr
                       className="border-b bg-white transition-all hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-900"
@@ -245,10 +259,10 @@ const TaskTable = () => {
                         {data.taskName}
                       </th>
                       <td className="px-6 py-4 text-center">
-                        {dayjs(data.createdAt).format("DD-MM-YYYY,HH:mm")}
+                        {formattedCreatedTime}
                       </td>
                       <td className="px-6 py-4 text-center">
-                        {dayjs(data.finishingTime).format("DD-MM-YYYY,HH:mm")}
+                        {formattedFinishingTime}
                       </td>
                       <td className="px-6 py-4 text-center">
                         <label className="me-5 inline-flex cursor-pointer items-center">
