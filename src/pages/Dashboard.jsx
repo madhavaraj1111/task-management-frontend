@@ -8,6 +8,8 @@ const Dashboard = () => {
   const [cardData, setCardData] = useState({});
   const [finish, setFinish] = useState([]);
   const [taskOverDue, setTaskOverDue] = useState(0);
+  const [nowTimeStamp, setNowTimeStamp] = useState();
+
   useEffect(() => {
     axios
       .get("https://task-management-backend-74my.onrender.com/tasks")
@@ -19,19 +21,22 @@ const Dashboard = () => {
           (data) => data.checked === false,
         );
 
-        const finishingTimeArray = response.data.map((finishTime) => {
-          if (finishTime.checked == false) {
-            const timeStamp = new Date(finishTime.finishingTime).getTime();
-            return timeStamp;
-          }
-        });
+        const finishingTimeArray = response.data
+          .map((finishTime) => {
+            if (finishTime.checked == false) {
+              const timeStamp = new Date(finishTime.finishingTime).getTime();
+              return timeStamp;
+            }
+          })
+          .filter((data) => data !== undefined);
+
         setFinish(finishingTimeArray);
         setCardData({
           completed: completedData.length,
           incomplete: incompleteData.length,
         });
       });
-
+    setNowTimeStamp(Date.now());
     const timer = setTimeout(() => {
       setChartShow(true);
     }, 800);
@@ -39,13 +44,11 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (Array.isArray(finish) && finish.length > 0) {
-      const overDueTasks = finish.filter((element) => {
-        return Date.now() >= element;
+    if (finish.length > 0) {
+      const overdueTasks = finish.filter((timeStamp) => {
+        return timeStamp < nowTimeStamp;
       });
-      console.log(overDueTasks);
-
-      setTaskOverDue(overDueTasks.length);
+      setTaskOverDue(overdueTasks.length);
     }
   }, [finish]);
 
@@ -78,7 +81,7 @@ const Dashboard = () => {
                 {taskOverDue ? (
                   taskOverDue
                 ) : (
-                  <span className="text-sm">fetching...</span>
+                  <span className="text-sm">No overdues...</span>
                 )}
               </p>
             </div>

@@ -223,7 +223,7 @@ const TaskTable = () => {
                   const formattedCreatedTime = dayjs
                     .utc(data.createdAt)
                     .format("DD,MMMM,YYYY h:mm A");
-                    
+
                   const formattedFinishingTime = dayjs
                     .utc(data.finishingTime)
                     .format("DD,MMMM,YYYY h:mm A");

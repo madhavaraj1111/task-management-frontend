@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+// Load plugins
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const EditTask = () => {
   const [newData, setNewData] = useState({
@@ -75,11 +81,11 @@ const EditTask = () => {
               type="datetime-local"
               id="taskCreatedAt"
               name="taskCreatedAt"
-              value={dayjs(newData?.createdAt).format("YYYY-MM-DDTHH:mm")}
+              value={dayjs.utc(newData?.createdAt).format("YYYY-MM-DDTHH:mm")}
               onChange={(e) =>
                 setNewData({ ...newData, createdAt: e.target.value })
               }
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
               required
             />
           </div>
@@ -96,11 +102,13 @@ const EditTask = () => {
               type="datetime-local"
               id="expectedFinishTime"
               name="expectedFinishTime"
-              value={dayjs(newData?.finishingTime).format("YYYY-MM-DDTHH:mm")}
+              value={dayjs
+                .utc(newData?.finishingTime)
+                .format("YYYY-MM-DDTHH:mm")}
               onChange={(e) =>
                 setNewData({ ...newData, finishingTime: e.target.value })
               }
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
               required
             />
           </div>
